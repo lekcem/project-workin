@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% block title %}App Users{% endblock %}
+{% block page %}App Users{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+    <div class="" style="background-color: aqua;">
+        <p>complete the form to unload statistics</p>
+    </div>
+
+    <div class="" style="background-color: aqua;">
+      <form class="" method="POST" action="/users">
+        
+        <div class="">
+          <div class="">
+            <input placeholder="Username" name="username" type="text" class="validate">
+            <label for="username">Username</label>
+            <input placeholder="password" name="password" type="password" class="validate">
+            <label for="password">Password</label>
+          </div>
+        </div>
+        
+        <div class="">
+          <div class="">
+            <button class="" type="submit" name="action">Submit</button>
+          </div>
+        </div> 
+      </form>
+    </div>
+
+    <div class="row" style="background-color: aqua;">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th><th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+            </tr>
+          {% endfor %}
+        <tbody>
+      </table>
+    </div>
+
+    <div class="" style="background-color: aqua;">
+      <form class="" method="POST" action="/reports">
+        <div class="">
+          <div class="">
+
+            <input placeholder="excelfile" name="excelfile" type="text" class="validate">
+            <label for="excelfile">excelfile</label>
+            <input placeholder="Year" name="year" type="text" class="validate">
+            <label for="year">Year</label>
+            <input placeholder="Campus" name="campus" type="text" class="validate">
+            <label for="campus">Campus</label>
+          </div>
+        </div>
+          <div class="">
+            <button class="" type="submit" name="action">Submit</button>
+          </div>
+      </form>
+    </div>
+
+
+    <div class="row" style="background-color: aqua;">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th><th>Staff Name</th><th>year</th><th>campus</th><th>Sheet Upload</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for report in reports %}
+            <tr>
+                <td>{{report.id}}</td>
+                <td>{{report.year}}</td>
+                <td>{{report.campus}}</td>
+                <td>{{report.excelfile}}</td>
+
+            </tr>
+          {% endfor %}
+        <tbody>
+      </table>
+    </div>
+
+    
+
+{% endblock %}
