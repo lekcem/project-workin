@@ -132,11 +132,9 @@ def get_exceldata_for_report():
 #deletreport
 @user_views.route('/delete_report/<int:report_id>', methods=['POST'])
 def delete_report(report_id):
-    # Find the report by ID
     report = get_report(report_id)
 
     if report:
-        # Delete the report
         report_delete(report_id)
         flash('Report deleted successfully!', 'success')
     else:
