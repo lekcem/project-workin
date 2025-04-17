@@ -1,5 +1,7 @@
+import os
 from App.models import User, Report
 from App.database import db
+from flask import Blueprint, current_app
 
 def create_user(username, password):
     newuser = User(username=username, password=password)
@@ -78,3 +80,11 @@ def get_all_reports_json():
         return []
     reports = [report.get_json() for report in reports]
     return reports
+
+def ensure_upload_folder():
+    upload_folder = current_app.config['UPLOAD_FOLDER']
+    if not os.path.exists(upload_folder):
+        os.makedirs(upload_folder)
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']

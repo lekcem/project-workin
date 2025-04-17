@@ -1,13 +1,17 @@
-from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
+import os
+from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for, current_app
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
-
+from werkzeug.utils import secure_filename
 from.index import index_views
 
 from App.controllers import (
+    ensure_upload_folder,
     create_user,
+    allowed_file,
     create_report,
     get_all_reports,
     get_all_reports_json,
+   
     get_all_users,
     get_all_users_json,
     jwt_required
@@ -48,10 +52,37 @@ def static_user_page():
 #test
 @user_views.route('/reports', methods=['POST'])
 def create_report_action():
-    data = request.form
-    flash(f"Report {data['year']} created!")
-    create_report(data['year'], data['campus'], data['excelfile'])
-    return redirect(url_for('user_views.get_report_page'))
+    # Get form data
+    year = request.form.get('year')
+    campus = request.form.get('campus')
+
+    ensure_upload_folder()
+
+    # Handle file upload
+    if 'excelfile' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+
+    file = request.files['excelfile']
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+
+    if file and allowed_file(file.filename):
+        # Secure the filename and save it
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+
+        # Now create the report
+        report = create_report(year, campus, filepath)
+        flash(f"Report for {year} created successfully!")
+        return redirect(url_for('user_views.get_report_page'))
+
+    else:
+        flash('Invalid file format. Please upload an Excel file.')
+        return redirect(request.url)
+
 
 @user_views.route('/reports', methods=['GET'])
 def get_report_page():
