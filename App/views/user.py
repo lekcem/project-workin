@@ -5,6 +5,10 @@ from werkzeug.utils import secure_filename
 from.index import index_views
 
 from App.controllers import (
+    process_excel_file,
+    get_all_exceldatas,
+    get_all_exceldatas_json,
+    get_excel_data_for_report,
     ensure_upload_folder,
     create_user,
     allowed_file,
@@ -58,7 +62,6 @@ def create_report_action():
 
     ensure_upload_folder()
 
-    # Handle file upload
     if 'excelfile' not in request.files:
         flash('No file part')
         return redirect(request.url)
@@ -69,13 +72,13 @@ def create_report_action():
         return redirect(request.url)
 
     if file and allowed_file(file.filename):
-        # Secure the filename and save it
         filename = secure_filename(file.filename)
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
-        # Now create the report
+
         report = create_report(year, campus, filepath)
+        process_excel_file(filepath, report.id)  
         flash(f"Report for {year} created successfully!")
         return redirect(url_for('user_views.get_report_page'))
 
@@ -87,15 +90,37 @@ def create_report_action():
 @user_views.route('/reports', methods=['GET'])
 def get_report_page():
     reports = get_all_reports()
-    return render_template('users.html', reports=reports)
+    exceldatas = get_all_exceldatas()
+    return render_template('users.html', reports=reports, exceldatas=exceldatas)
 
 @user_views.route('/api/reports', methods=['GET'])
 def get_reports_action():
     reports = get_all_reports_json()
     return jsonify(reports)
 
-@user_views.route('/api/reports', methods=['POST'])
-def create_report_endpoint():
-    data = request.json
-    report = create_report(data['year'], data['campus'], data['excelfile'])
-    return jsonify({'message': f"report {report.year} created with id {report.id}"})
+@user_views.route('/api/exceldata', methods=['GET'])
+def get_exceldata_for_report():
+    report_id = request.args.get('report_id', type=int)  # Get report_id as an integer
+    if report_id is None:
+        return jsonify({"error": "Report ID is required"}), 400
+    
+    # Use the query function to get the data for the specific report
+    excel_data = get_excel_data_for_report(report_id)
+    
+    # If no data is found, return an error message
+    if not excel_data:
+        return jsonify({"error": "No Excel data found for this report."}), 404
+    
+    # Convert the data to a list of dictionaries for easy JSON formatting
+    result = []
+    for data in excel_data:
+        result.append({
+            'id': data.id,
+            'department': data.department,
+            'students': data.students,
+            'report_id': data.report_id
+        })
+    
+    return jsonify(result)
+
+

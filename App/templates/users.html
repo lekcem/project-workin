@@ -71,7 +71,7 @@
       <table>
         <thead>
           <tr>
-            <th>Id</th><th>Staff Name</th><th>year</th><th>campus</th><th>Sheet Upload</th>
+            <th>Id</th><th>year</th><th>campus</th><th>Sheet Upload</th>
           </tr>
         </thead>
         <tbody>
@@ -81,6 +81,26 @@
                 <td>{{report.year}}</td>
                 <td>{{report.campus}}</td>
                 <td>{{report.excelfile}}</td>
+
+            </tr>
+          {% endfor %}
+        <tbody>
+      </table>
+    </div>
+
+    <div class="row" style="background-color: aqua;">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th><th>department</th><th>students</th><th>report_id</th>
+        </thead>
+        <tbody>
+          {% for exceldata in exceldatas %}
+            <tr>
+                <td>{{exceldata.id}}</td>
+                <td>{{exceldata.department}}</td>
+                <td>{{exceldata.students}}</td>
+                <td>{{exceldata.report_id}}</td>
 
             </tr>
           {% endfor %}

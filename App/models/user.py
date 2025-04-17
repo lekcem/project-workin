@@ -32,16 +32,37 @@ class Report(db.Model):
     year = db.Column(db.Integer, nullable=False)
     campus = db.Column(db.String(60), nullable=False)
     excelfile = db.Column(db.String(120), nullable=False)
+    exceldata = db.relationship('ExcelData', backref='report', lazy=True)  
 
     def __init__(self, year, campus, excelfile):
         self.year = year
         self.campus = campus
         self.excelfile = excelfile
 
-    def get_json(self): 
-        return{
+    def get_json(self):
+        return {
             'id': self.id,
             'year': self.year,
             'campus': self.campus,
             'excelfile': self.excelfile
+        }
+
+
+class ExcelData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    department = db.Column(db.String(60), nullable=False)
+    students = db.Column(db.Integer, nullable=False)
+    report_id = db.Column(db.Integer, db.ForeignKey('report.id'), nullable=False)
+
+    def __init__(self, department, students, report_id):
+        self.department = department
+        self.students = students
+        self.report_id = report_id
+
+    def get_json(self):
+        return {
+            'id': self.id,
+            'department': self.department,
+            'students': self.students,
+            'report_id': self.report_id
         }
