@@ -97,11 +97,7 @@ def get_all_exceldatas_json():
     return exceldatas
 
 #
-def delete_excel(id):
-    exceldata = ExcelData.query.get(id)
-    db.session.delete(exceldata)
-    db.session.commit()
-    return
+
  
 def get_excel_data_for_report(report_id):
     excel_data = ExcelData.query.filter_by(report_id=report_id).all()
@@ -112,5 +108,8 @@ def report_delete(id):
     db.session.delete(report)
     db.session.commit()
     return
+
+def get_report(id):
+    return Report.query.get(id)
  
 

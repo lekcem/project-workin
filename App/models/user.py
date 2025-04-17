@@ -32,7 +32,7 @@ class Report(db.Model):
     year = db.Column(db.Integer, nullable=False)
     campus = db.Column(db.String(60), nullable=False)
     excelfile = db.Column(db.String(120), nullable=False)
-    exceldata = db.relationship('ExcelData', backref='report', lazy=True)  
+    exceldata = db.relationship('ExcelData', backref='report', lazy=True,cascade='all, delete-orphan')  
 
     def __init__(self, year, campus, excelfile):
         self.year = year

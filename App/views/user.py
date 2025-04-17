@@ -5,7 +5,8 @@ from werkzeug.utils import secure_filename
 from.index import index_views
 
 from App.controllers import (
-    delete_excel,
+    report_delete,
+    get_report,
     get_excel_data,
     process_excel_file,
     get_all_exceldatas,
@@ -126,27 +127,26 @@ def get_exceldata_for_report():
     
     return jsonify(result)
 
-#delert
-@user_views.route('/delete_excel_data/<int:exceldata_id>', methods=['POST'])
-def delete_excel_data(exceldata_id):
-    # Find the record by ID
-    exceldata =  get_excel_data(exceldata_id)
 
-    if exceldata:
-        # Delete the record
-        delete_excel(exceldata_id)
-        flash('Excel data deleted successfully!', 'success')
-    
+
+#deletreport
+@user_views.route('/delete_report/<int:report_id>', methods=['POST'])
+def delete_report(report_id):
+    # Find the report by ID
+    report = get_report(report_id)
+
+    if report:
+        # Delete the report
+        report_delete(report_id)
+        flash('Report deleted successfully!', 'success')
     else:
-        flash('Excel data not found!', 'error')
+        flash('Report not found!', 'error')
 
-    return redirect(url_for('user_views.show_excel_data', report_id=exceldata.report_id))
+    return redirect(url_for('user_views.show_reports'))
 
-@user_views.route('/exceldata/<int:report_id>', methods=['GET'])
-def show_excel_data(report_id):
-
-    exceldatas = get_excel_data_for_report(report_id)
-    
-    return render_template('users.html', exceldatas=exceldatas)
+@user_views.route('/reports', methods=['GET'])
+def show_reports():
+    reports = get_all_reports()
+    return render_template('reports.html', reports=reports)
 
 
