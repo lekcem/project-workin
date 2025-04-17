@@ -102,6 +102,12 @@
                 <td>{{exceldata.students}}</td>
                 <td>{{exceldata.report_id}}</td>
 
+                <td>
+                  <form action="{{ url_for('user_views.delete_excel_data', exceldata_id=exceldata.id) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+
             </tr>
           {% endfor %}
         <tbody>

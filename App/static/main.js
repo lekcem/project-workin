@@ -135,13 +135,11 @@ function generateBarChart(reportId) {
             const labels = [];
             const studentsData = [];
 
-            // Prepare the data for the bar chart
             data.forEach(entry => {
                 labels.push(entry.department);
                 studentsData.push(entry.students);
             });
 
-            // Call the function to render the bar chart
             renderBarChart(labels, studentsData);
         })
         .catch(error => {
@@ -159,7 +157,7 @@ function renderBarChart(labels, data) {
             datasets: [{
                 label: 'Number of Students per Department',
                 data: data,
-                backgroundColor: '#4CAF50', // A green color for bars
+                backgroundColor: '#4CAF50', 
                 borderColor: '#388E3C',
                 borderWidth: 1
             }]

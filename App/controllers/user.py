@@ -35,7 +35,7 @@ def update_user(id, username):
     return None
 
 
-#test
+#
 
 def create_report(year,campus, excelfile): 
     newreport = Report(year=year, campus=campus, excelfile=excelfile)
@@ -52,7 +52,7 @@ def get_all_reports_json():
         return []
     reports = [report.get_json() for report in reports]
     return reports
-
+#flies
 def ensure_upload_folder():
     upload_folder = current_app.config['UPLOAD_FOLDER']
     if not os.path.exists(upload_folder):
@@ -82,9 +82,13 @@ def process_excel_file(filepath, report_id):
 
     os.remove(filepath)  
 
+#
 def get_all_exceldatas():
     return ExcelData.query.all()   
- 
+
+def get_excel_data(id):
+    return ExcelData.query.get(id)
+
 def get_all_exceldatas_json():
     exceldatas = ExcelData.query.all()
     if not exceldatas:
@@ -92,6 +96,21 @@ def get_all_exceldatas_json():
     exceldatas = [exceldatas.get_json() for exceldatas in exceldatas]
     return exceldatas
 
+#
+def delete_excel(id):
+    exceldata = ExcelData.query.get(id)
+    db.session.delete(exceldata)
+    db.session.commit()
+    return
+ 
 def get_excel_data_for_report(report_id):
     excel_data = ExcelData.query.filter_by(report_id=report_id).all()
     return excel_data
+
+def report_delete(id):
+    report = Report.query.get(id)
+    db.session.delete(report)
+    db.session.commit()
+    return
+ 
+

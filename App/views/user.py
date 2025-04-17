@@ -5,6 +5,8 @@ from werkzeug.utils import secure_filename
 from.index import index_views
 
 from App.controllers import (
+    delete_excel,
+    get_excel_data,
     process_excel_file,
     get_all_exceldatas,
     get_all_exceldatas_json,
@@ -98,20 +100,21 @@ def get_reports_action():
     reports = get_all_reports_json()
     return jsonify(reports)
 
+
+
+#ecxcetldat
+
 @user_views.route('/api/exceldata', methods=['GET'])
 def get_exceldata_for_report():
-    report_id = request.args.get('report_id', type=int)  # Get report_id as an integer
+    report_id = request.args.get('report_id', type=int) 
     if report_id is None:
         return jsonify({"error": "Report ID is required"}), 400
     
-    # Use the query function to get the data for the specific report
     excel_data = get_excel_data_for_report(report_id)
     
-    # If no data is found, return an error message
     if not excel_data:
         return jsonify({"error": "No Excel data found for this report."}), 404
     
-    # Convert the data to a list of dictionaries for easy JSON formatting
     result = []
     for data in excel_data:
         result.append({
@@ -122,5 +125,28 @@ def get_exceldata_for_report():
         })
     
     return jsonify(result)
+
+#delert
+@user_views.route('/delete_excel_data/<int:exceldata_id>', methods=['POST'])
+def delete_excel_data(exceldata_id):
+    # Find the record by ID
+    exceldata =  get_excel_data(exceldata_id)
+
+    if exceldata:
+        # Delete the record
+        delete_excel(exceldata_id)
+        flash('Excel data deleted successfully!', 'success')
+    
+    else:
+        flash('Excel data not found!', 'error')
+
+    return redirect(url_for('user_views.show_excel_data', report_id=exceldata.report_id))
+
+@user_views.route('/exceldata/<int:report_id>', methods=['GET'])
+def show_excel_data(report_id):
+
+    exceldatas = get_excel_data_for_report(report_id)
+    
+    return render_template('users.html', exceldatas=exceldatas)
 
 
