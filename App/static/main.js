@@ -31,6 +31,8 @@ function loadTable2(reports){
             <td>
                 <button onclick="fetchExcelData(${report.id})">Show Excel Data</button>
                 <button onclick="generatePieChart(${report.id})">Generate Pie Chart</button>
+                <button onclick="generateBarChart(${report.id})">Generate Bar Chart</button>
+
             </td>
 
         </tr>`;
@@ -126,6 +128,74 @@ function renderPieChart(labels, data) {
     });
 }
 
+function generateBarChart(reportId) {
+    fetch(`/api/exceldata?report_id=${reportId}`)
+        .then(response => response.json())
+        .then(data => {
+            const labels = [];
+            const studentsData = [];
+
+            // Prepare the data for the bar chart
+            data.forEach(entry => {
+                labels.push(entry.department);
+                studentsData.push(entry.students);
+            });
+
+            // Call the function to render the bar chart
+            renderBarChart(labels, studentsData);
+        })
+        .catch(error => {
+            console.error('Error fetching Excel data for bar chart:', error);
+        });
+}
+
+function renderBarChart(labels, data) {
+    const ctx = document.getElementById('barChart').getContext('2d');
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Students per Department',
+                data: data,
+                backgroundColor: '#4CAF50', // A green color for bars
+                borderColor: '#388E3C',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Students'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Departments'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw + ' students';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
 
 async function main(){
     const users = await getUserData();
