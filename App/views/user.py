@@ -59,7 +59,6 @@ def static_user_page():
 #test
 @user_views.route('/reports', methods=['POST'])
 def create_report_action():
-    # Get form data
     year = request.form.get('year')
     campus = request.form.get('campus')
 
