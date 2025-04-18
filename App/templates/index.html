@@ -3,32 +3,82 @@
 {% block page %}UWI Stats App{% endblock %}
 
 {{ super() }}
+
 {% block content %}
-    {% if is_authenticated %}
-        <p> Welcome to the dashboard {{current_user.username}} </p>
+<style>
+    .dashboard-container {
+        padding: 2rem;
+        text-align: center;
+        padding-top: 90px;
+    }
 
-        <p>Welcome to StatPlatform! 📊
-            Your go-to hub for data-driven insights, analysis, and smart decision-making.
-            
-            At StatPlatform, we bring statistics to life—whether you're a researcher, business analyst, student, or data enthusiast. From powerful data visualization tools to advanced statistical modeling, our platform helps you explore trends, uncover patterns, and make sense of complex information with ease.
-            
-            Join us and start turning your data into action. Let’s make numbers work for you!</p>
+    .intro-text {
+        max-width: 800px;
+        margin: 1.5rem auto;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
 
+    .dashboard-columns {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
 
-        <div class="row">
-            <div class="column" style="background-color:#aaa;">
-              <h2>Upload Sheet </h2>
-              <p>Some text..</p>
-            </div>
-            <div class="column" style="background-color:#bbb;">
-              <h2>Generate Report</h2>
-              <p>Some text..</p>
-            </div>
-            <div class="column" style="background-color:#ccc;">
-              <h2> View Report</h2>
-              <p>Some text..</p>
-            </div>
-          </div>
-          
-    {% endif %}
+    .column {
+        flex: 1 1 250px;
+        max-width: 300px;
+        background-color: #f1f1f1;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .column:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+
+    .column h2 {
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+
+    .column p {
+        color: #555;
+    }
+</style>
+
+{% if is_authenticated %}
+<div class="dashboard-container">
+    <h4>Welcome to the dashboard, {{ current_user.username }} 👋</h4>
+
+    <div class="intro-text">
+        <p>Welcome to <strong>myeStats</strong>! 📊<br>
+        Your go-to hub for data-driven insights, analysis, and smart decision-making.</p>
+
+        <p>At StatPlatform, we bring statistics to life—whether you're a researcher, business analyst, student, or data enthusiast. From powerful data visualization tools to advanced statistical modeling, our platform helps you explore trends, uncover patterns, and make sense of complex information with ease.</p>
+
+        <p>Join us and start turning your data into action. Let’s make numbers work for you!</p>
+    </div>
+
+    <div class="dashboard-columns">
+        <div class="column">
+            <h2>Upload Sheet</h2>
+            <p>Upload your CSV or Excel file to start analyzing your data.</p>
+        </div>
+        <div class="column">
+            <h2>Generate Report</h2>
+            <p>Run automated reports on your dataset with just a click.</p>
+        </div>
+        <div class="column">
+            <h2>View Report</h2>
+            <p>Browse previous reports and visualize your results.</p>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

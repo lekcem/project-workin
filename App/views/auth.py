@@ -46,6 +46,7 @@ def logout_action():
     unset_jwt_cookies(response)
     return response
 
+
 '''
 API Routes
 '''
