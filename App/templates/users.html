@@ -75,6 +75,13 @@
   .btn-danger:hover {
     background-color: #c62828;
   }
+  select {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: whitesmoke;
+    color: black;
+  }
+  
 </style>
 
 <div class="form-container" style="margin-top: 100px; text-align: center;">
@@ -83,15 +90,37 @@
 
 <div class="form-container">
   <form class="upload-form" method="POST" action="/reports" enctype="multipart/form-data">
-    <input placeholder="excelfile" name="excelfile" type="file" class="validate">
-    <label for="excelfile">Excel File</label>
-    <input placeholder="Year" name="year" type="text" class="validate">
-    <label for="year">Year</label>
-    <input placeholder="Campus" name="campus" type="text" class="validate">
-    <label for="campus">Campus</label>
+    <div class="input-field">
+      <input type="file" name="excelfile" id="excelfile">
+      <label for="excelfile">Excel File</label>
+    </div>
+
+    <div class="input-field">
+      <select name="year" id="year" required>
+        <option value="" disabled selected>Choose Year</option>
+        {% for year in range(2020, 2031) %}
+          <option value="{{ year }}">{{ year }}</option>
+        {% endfor %}
+      </select>
+      <label for="year">Select Year</label>
+    </div>
+    
+    <div class="input-field">
+      <select name="campus" id="campus" required>
+        <option value="" disabled selected>Choose Campus</option>
+        <option value="St. Augustine">St. Augustine</option>
+        <option value="Mona">Mona</option>
+        <option value="Cave Hill">Cave Hill</option>
+        <option value="Five Islands">Five Islands</option>
+      </select>
+      <label for="campus">Select Campus</label>
+    </div>
+    
+
     <button type="submit" name="action">Submit</button>
   </form>
 </div>
+
 
 <div class="table-container">
   <table>
@@ -138,3 +167,9 @@
 </div>
 {% endif %}  
 {% endblock %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems);
+  });
+</script>
