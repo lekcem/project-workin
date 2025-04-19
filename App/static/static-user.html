@@ -9,23 +9,79 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>App Users</title>
+    <style>
+      body {
+    background-image: url("{{ url_for('static', filename='office.jpg') }}") !important;
+    background-position: absolute;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 150vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    
+}
+    .split {
+      height: 100%;
+      width: 50%;
+      position: absolute;
+      overflow-x: hidden;
+    }
+    
+    .left {
+      top: 125px;
+      left: 0;
+      margin-left: 25px;
+      padding-right: 40px;
+    }
+    
+    .right {
+      top: 170px;
+      right: 0;
+      padding: 10px;
 
+    }
+
+    th{
+      text-align: center;
+      padding: 0 2px 0 2px;
+    }
+
+  .navbar {
+  background-color: #226cc1 !important;
+  font-family: 'Cabin', sans-serif;
+  font-size: 20px;
+  font: black;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  height: 80px;
+  
+}
+
+
+.navbar ul#nav-mobile li a:hover {
+  background-color: white;
+  color: #226cc1 !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+  </style>
   </head>
   <body>
-    <nav class="purple">
-      <div class="nav-wrapper">
-        <a href="#!" class="brand-logo center">App Users</a>
-        <div class="nav-wrapper">
-            <ul id="nav-mobile" class="left">
-                <li><a href="/">Home</a></li>
-                <li><a href="/users">Users Jinja</a></li>
-                <li><a href="/static/users">Users JS</a></li>
-            </ul>
-        </div>
-      </div>
-    </nav>
+    <nav class="navbar">
+        <img src="logo.png" alt="Logo" style="  width: 200px; height: 60px; border-radius: 8px; padding-top: 5px;margin: 5px 0 0 5px;">
+          <ul id="nav-mobile" class="right" style="margin-top: 0%;">
+
+              <li><a href="/">Home</a></li>
+              <li><a href="/users">Upload Report</a></li>
+              <li><a href="/static/users">View Report</a></li>
+      </nav>
     
-    <div class="container" id="content">
+    <div class="split left">
+      <div class="container" id="content" >
         <div class="row">
             <p>
             </p>
@@ -39,7 +95,7 @@
       <table>
           <thead>
             <tr>
-              <th>Id</th><th>year</th><th>campus</th>
+              <th>Id</th><th>year</th><th>campus</th><th>Sheet</th><th>actions</th>
             </tr>
           </thead>
           <tbody id="result2">
@@ -47,13 +103,17 @@
       </table>
   </div>
 </div>
+<div class="split right">
+  <div id="excelDataContainer" style="display:none;"></div>
 
-<div id="excelDataContainer"></div>
+<div id="pieChartWrapper" style="display:none;width: 400px; height: 400px;">
+  <canvas id="pieChart" width="400" height="400" style="margin-left: 150px;"></canvas>
+</div>
 
-
-<table id="result2"></table>
-<canvas id="pieChart" width="10px" height="10px"></canvas>
-<canvas id="barChart" width="1%" height="1%"></canvas>
+<div id="barChartWrapper" style="display:none; width: 400px; height: 400px;">
+  <canvas id="barChart" width="400" height="400" style="margin-left: 150px;"></canvas>
+</div>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

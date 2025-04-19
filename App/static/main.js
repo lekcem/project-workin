@@ -1,3 +1,7 @@
+
+
+
+
 async function getUserData2(){
     const response = await fetch('/api/reports');
     return response.json();
@@ -24,59 +28,72 @@ function loadTable2(reports){
 
 
 function fetchExcelData(reportId) {
-    // Make an API call to fetch the Excel data for the given report id
-    fetch(`/api/exceldata?report_id=${reportId}`)
-        .then(response => response.json())
-        .then(data => {
-            // Assuming `data` contains an array of ExcelData for the report
-            displayExcelData(data);
-        })
-        .catch(error => {
-            console.error('Error fetching Excel data:', error);
-        });
+    const excelDataContainer = document.querySelector('#excelDataContainer');
+    
+    if (excelDataContainer.style.display === "none" || excelDataContainer.style.display === "") {
+        excelDataContainer.style.display = "block";
+
+        fetch(`/api/exceldata?report_id=${reportId}`)
+            .then(response => response.json())
+            .then(data => {
+                displayExcelData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching Excel data:', error);
+            });
+    } else {
+        excelDataContainer.style.display = "none";
+    }
 }
 
-function displayExcelData(excelData) {
-    // Get the container to display the Excel data
-    const excelDataContainer = document.querySelector('#excelDataContainer');
-    excelDataContainer.innerHTML = '';  // Clear the container before adding new data
 
-    // Check if we have data to display
+function displayExcelData(excelData) {
+    const excelDataContainer = document.querySelector('#excelDataContainer');
+    excelDataContainer.innerHTML = '';  
+
     if (excelData.length === 0) {
         excelDataContainer.innerHTML = 'No Excel data found for this report.';
         return;
     }
 
-    // Loop through the Excel data and create a table for it
     let tableHTML = `<table><thead><tr><th>Department</th><th>Students</th></tr></thead><tbody>`;
     for (let data of excelData) {
         tableHTML += `<tr><td>${data.department}</td><td>${data.students}</td></tr>`;
     }
     tableHTML += `</tbody></table>`;
 
-    // Insert the table into the container
     excelDataContainer.innerHTML = tableHTML;
 }
 
 
 function generatePieChart(reportId) {
-    fetch(`/api/exceldata?report_id=${reportId}`)
-        .then(response => response.json())
-        .then(data => {
-            const labels = [];
-            const studentsData = [];
-            
-            data.forEach(entry => {
-                labels.push(entry.department);
-                studentsData.push(entry.students);
-            });
+    const pieChartCanvas = document.getElementById('pieChart');
+    const pieChartContainer = pieChartCanvas.parentElement;
 
-            renderPieChart(labels, studentsData);
-        })
-        .catch(error => {
-            console.error('Error fetching Excel data for pie chart:', error);
-        });
+    if (pieChartContainer.style.display === "none" || pieChartContainer.style.display === "") {
+        pieChartContainer.style.display = "block";
+
+        fetch(`/api/exceldata?report_id=${reportId}`)
+            .then(response => response.json())
+            .then(data => {
+                const labels = [];
+                const studentsData = [];
+
+                data.forEach(entry => {
+                    labels.push(entry.department);
+                    studentsData.push(entry.students);
+                });
+
+                renderPieChart(labels, studentsData);
+            })
+            .catch(error => {
+                console.error('Error fetching Excel data for pie chart:', error);
+            });
+    } else {
+        pieChartContainer.style.display = "none";
+    }
 }
+
 
 function renderPieChart(labels, data) {
     const ctx = document.getElementById('pieChart').getContext('2d');
@@ -112,23 +129,33 @@ function renderPieChart(labels, data) {
 }
 
 function generateBarChart(reportId) {
-    fetch(`/api/exceldata?report_id=${reportId}`)
-        .then(response => response.json())
-        .then(data => {
-            const labels = [];
-            const studentsData = [];
+    const barChartCanvas = document.getElementById('barChart');
+    const barChartContainer = barChartCanvas.parentElement; 
 
-            data.forEach(entry => {
-                labels.push(entry.department);
-                studentsData.push(entry.students);
+    if (barChartContainer.style.display === "none" || barChartContainer.style.display === "") {
+        barChartContainer.style.display = "block";
+
+        fetch(`/api/exceldata?report_id=${reportId}`)
+            .then(response => response.json())
+            .then(data => {
+                const labels = [];
+                const studentsData = [];
+
+                data.forEach(entry => {
+                    labels.push(entry.department);
+                    studentsData.push(entry.students);
+                });
+
+                renderBarChart(labels, studentsData);
+            })
+            .catch(error => {
+                console.error('Error fetching Excel data for bar chart:', error);
             });
-
-            renderBarChart(labels, studentsData);
-        })
-        .catch(error => {
-            console.error('Error fetching Excel data for bar chart:', error);
-        });
+    } else {
+        barChartContainer.style.display = "none";
+    }
 }
+
 
 function renderBarChart(labels, data) {
     const ctx = document.getElementById('barChart').getContext('2d');
