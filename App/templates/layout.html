@@ -12,7 +12,6 @@
     <!-- Materialize CSS and Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -31,6 +30,69 @@
         display: flex;
         flex-direction: column;
         font-family: "Cabin", sans-serif;
+      }
+
+      .sidenav {
+        background-color: #e3f2fd;
+        width: 250px;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        overflow: hidden;
+        transform: translateX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .sidenav.closed {
+        transform: translateX(-100%) !important;
+      }
+
+      .sidenav a {
+        color: #0d47a1;
+        font-weight: 600;
+      }
+
+      .sidenav .user-view .name {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .sidenav-trigger {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1000;
+      }
+
+      .sidenav-trigger i {
+        font-size: 32px;
+        color: white;
+      }
+
+      .sidenav-close-wrapper {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1001;
+      }
+
+      .sidenav-close i {
+        font-size: 18px;
+        color: #333;
+        transition: color 0.3s ease;
+      }
+
+      .sidenav-close:hover i {
+        color: #d32f2f;
+        cursor: pointer;
+      }
+
+      #main-content {
+        transition: margin-left 0.3s ease;
+        margin-left: 250px;
+      }
+
+      #main-content.expanded {
+        margin-left: 0 !important;
       }
 
       .loginbut {
@@ -81,36 +143,6 @@
         font-weight: 700;
       }
 
-      .sidenav {
-        background-color: #e3f2fd;
-        width: 250px;
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
-        overflow: hidden;
-      }
-
-      .sidenav a {
-        color: #0d47a1;
-        font-weight: 600;
-      }
-
-      .sidenav .user-view .name {
-        font-size: 20px;
-        font-weight: bold;
-      }
-
-      .sidenav-trigger {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 1000;
-      }
-
-      .sidenav-trigger i {
-        font-size: 32px;
-        color: white;
-      }
-
       * {
         box-sizing: border-box;
       }
@@ -127,45 +159,28 @@
         display: table;
         clear: both;
       }
-      #main-content {
-        transition: margin-left 0.3s ease;
-        margin-left: 0;
-      }
-
-
-      .sidenav-close-wrapper {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 1001;
-      }
-
-      .sidenav-close i {
-        font-size: 18px;
-        color: #333;
-        transition: color 0.3s ease;
-      }
-
-      .sidenav-close:hover i {
-        color: #d32f2f;
-        cursor: pointer;
-      }
 
       @media screen and (max-width: 600px) {
         .column {
           width: 100%;
         }
+        .sidenav {
+          transform: translateX(-100%);
+          position: fixed;
+        }
+        #main-content {
+          margin-left: 0;
+        }
       }
-
     </style>
   </head>
   
   <body>
-    <a href="#" data-target="slide-out" class="sidenav-trigger">
+    <a href="#!" class="sidenav-trigger">
       <i class="material-icons">menu</i>
     </a>
 
-    <ul id="slide-out" class="sidenav">
+    <ul id="slide-out" class="sidenav sidenav-fixed">
       <div class="sidenav-close-wrapper">
         <a href="#!" class="sidenav-close">
           <i class="material-icons">close</i>
@@ -197,25 +212,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('.sidenav');
-        M.Sidenav.init(elems, {
-          edge: 'left',
-          draggable: true
+        // Prevent Materialize from overriding our custom sidenav behavior
+        const sidenav = document.querySelector('.sidenav');
+        const mainContent = document.getElementById('main-content');
+        const closeBtn = document.querySelector('.sidenav-close');
+        const menuBtn = document.querySelector('.sidenav-trigger');
+
+        closeBtn.addEventListener('click', function () {
+          sidenav.classList.add('closed');
+          mainContent.classList.add('expanded');
         });
-      });
 
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('select');
-        M.FormSelect.init(elems);
-      });
+        menuBtn.addEventListener('click', function () {
+          sidenav.classList.remove('closed');
+          mainContent.classList.remove('expanded');
+        });
 
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          {% for message in messages %}
-            M.toast({html: '{{ message }}'});
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
+        var selects = document.querySelectorAll('select');
+        M.FormSelect.init(selects);
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              M.toast({html: '{{ message }}'});
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      });
     </script>
   </body>
 </html>
