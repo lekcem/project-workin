@@ -1,7 +1,3 @@
-
-
-
-
 async function getUserData2(){
     const response = await fetch('/api/reports');
     return response.json();

@@ -27,6 +27,7 @@ from App.controllers import (
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
 @user_views.route('/users', methods=['GET'])
+@jwt_required()
 def get_user_page():
     users = get_all_users()
     reports = get_all_reports()
@@ -34,6 +35,7 @@ def get_user_page():
     return render_template('users.html', users=users, reports=reports, exceldatas=exceldatas)
 
 @user_views.route('/createuser', methods=['GET'])
+@jwt_required()
 def get_createuser_page():
     users = get_all_users()
     return render_template('createuser.html', users=users)
@@ -113,6 +115,11 @@ def get_reports_action():
     reports = get_all_reports_json()
     return jsonify(reports)
 
+@user_views.route('/reports', methods=['GET'])
+def show_reports():
+    reports = get_all_reports()
+    return render_template('reports.html', reports=reports)
+
 
 
 #ecxcetldat
@@ -153,10 +160,5 @@ def delete_report(report_id):
         flash('Report not found!', 'error')
 
     return redirect(url_for('user_views.show_reports'))
-
-@user_views.route('/reports', methods=['GET'])
-def show_reports():
-    reports = get_all_reports()
-    return render_template('reports.html', reports=reports)
 
 
