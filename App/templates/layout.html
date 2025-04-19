@@ -179,7 +179,6 @@ clear: both;
 </style>
   </head>
   <body>
-        {% if is_authenticated %}
       <nav class="navbar">
           <div class="nav-wrapper">
             <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="  width: 200px; height: 60px; border-radius: 8px; padding-top: 5px;">
@@ -187,57 +186,31 @@ clear: both;
               <ul id="nav-mobile" class="right" style="margin-top: 0%;">
 
                   <li><a href="/">Home</a></li>
+                  {% if is_authenticated %}
                   <li><a href="/users">Upload Report</a></li>
+                  {% endif %}  
                   <li><a href="/static/users">View Report</a></li>
+                  {% if is_authenticated %}
+                  <li><a href="/createuser">Create User</a></li>
+                  {% endif %}  
                   <!--<li><a href="/identify"></a></li>-->
-                  <li><a href="/logout">Logout</a></li>
                   
+                {% if is_authenticated %}
+                  <li><a href="logout">Logout</a></li>
+                {% else %} 
+                  <li><a href="/loginpage">Login</a></li>
+                 {% endif %}  
               
           </div>
       </nav>
 
-              {% else %}
+  <div>{% block content %}{% endblock %}</div>
 
-              <div class="split left">
-                <div style="margin-left: 10px">
-                <a href="/"><img src="{{ url_for('static', filename='ghostlogo.png') }}" alt="Logo" style=" border-radius: 30px; margin-top: 10px; margin-left: 10px; width: 150px; height: 60px; filter: opacity(0.6)"></a>
-                <strong>
-                <h1 class="welcome" style="margin: 25px 0 0 0;">Welcome to the</h1>
-                <h1 class="welcome" style="margin: 0 0 0 0;">UWI Statistics Platform</h1>   
-                  
-                </strong>
-
-                </div>
-              </div>
-
-              <div class="split right">
-                <div style="background-color: white; border-radius: 30px; height: 90%; margin: 0 20px 0 20px;">
-                  <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="  width: 650px; height: 200px; border-radius: 30px;">
-                  <h1 class="loging" style="margin:10px 0 2px 50px; font-size: 30px;">Login</h1>
-                  <p class="loging" style="margin:10px 0 0 50px;">Enter your login credentials to access the platform</p>
-    
-                  <form  method="POST" action="/login" style="margin: 20px 0 0 0; width: 700px;">
-                    <div style="display: flex; flex-direction: column; align-items: center;">
-
-                      <div class="lginform">
-                        <input style="border: none; text-align: center; width: 100%;" placeholder="Username" name="username" type="text" required>
-                      </div>
-                  
-                      <div class="lginform" style="margin-top: 25px; margin-bottom: 25px;">
-                        <input style="border: none; text-align: center; width: 100%;" placeholder="Password" name="password" type="password" required>
-                      </div>
-                  
-                      <button class="loginbut" type="submit">Login</button>
-                    
-                    </div>
-                  </form>
-                </div>
-              </div>
 
               
-      {% endif %}
 
-    <div>{% block content %}{% endblock %}</div>
+
+  
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>

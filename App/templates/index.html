@@ -52,7 +52,7 @@
     }
 </style>
 
-{% if is_authenticated %}
+
 <div class="dashboard-container">
     <h4>Welcome to the dashboard, {{ current_user.username }} 👋</h4>
 
@@ -66,19 +66,31 @@
     </div>
 
     <div class="dashboard-columns">
-        <div class="column">
+         {% if is_authenticated %}
+         <div class="column">
+           
             <h2>Upload Sheet</h2>
+            <li><a href="/loginpage">Login</a></li>
             <p>Upload your CSV or Excel file to start analyzing your data.</p>
         </div>
-        <div class="column">
-            <h2>Generate Report</h2>
-            <p>Run automated reports on your dataset with just a click.</p>
-        </div>
+         
+        {% endif %} 
         <div class="column">
             <h2>View Report</h2>
             <p>Browse previous reports and visualize your results.</p>
+            <li><a href="/static/users">View Report</a></li>
         </div>
+
+        {% if is_authenticated %}
+       <div class="column">
+           <h2>Create Account</h2>
+           <p>Run automated reports on your dataset with just a click.</p>
+       </div>
+        
+       {% endif %} 
+
     </div>
+      
 </div>
-{% endif %}
+      
 {% endblock %}

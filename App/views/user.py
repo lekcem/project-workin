@@ -29,7 +29,20 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 @user_views.route('/users', methods=['GET'])
 def get_user_page():
     users = get_all_users()
-    return render_template('users.html', users=users)
+    reports = get_all_reports()
+    exceldatas = get_all_exceldatas()
+    return render_template('users.html', users=users, reports=reports, exceldatas=exceldatas)
+
+@user_views.route('/createuser', methods=['GET'])
+def get_createuser_page():
+    users = get_all_users()
+    return render_template('createuser.html', users=users)
+
+@user_views.route('/loginpage', methods=['GET'])
+def get_loginpage_page():
+    users = get_all_users()
+    return render_template('login.html', users=users)
+
 
 @user_views.route('/users', methods=['POST'])
 def create_user_action():

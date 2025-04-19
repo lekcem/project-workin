@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
-{% block title %}App Users{% endblock %}
-{% block page %}App Users{% endblock %}
+{% block title %}Create User{% endblock %}
+{% block page %}Create User{% endblock %}
 
 {{ super() }}
 
-
 {% block content %}
 {% if is_authenticated %}
+
 <style>
   .form-container, .table-container {
     background-color: #e0f7fa;
@@ -78,17 +78,15 @@
 </style>
 
 <div class="form-container" style="margin-top: 100px; text-align: center;">
-  <p>Complete the form to unload statistics</p>
+  <p>Create Users</p>
 </div>
 
 <div class="form-container">
-  <form class="upload-form" method="POST" action="/reports" enctype="multipart/form-data">
-    <input placeholder="excelfile" name="excelfile" type="file" class="validate">
-    <label for="excelfile">Excel File</label>
-    <input placeholder="Year" name="year" type="text" class="validate">
-    <label for="year">Year</label>
-    <input placeholder="Campus" name="campus" type="text" class="validate">
-    <label for="campus">Campus</label>
+  <form method="POST" action="/users">
+    <input placeholder="Username" name="username" type="text" class="validate">
+    <label for="username">Username</label>
+    <input placeholder="Password" name="password" type="password" class="validate">
+    <label for="password">Password</label>
     <button type="submit" name="action">Submit</button>
   </form>
 </div>
@@ -97,44 +95,18 @@
   <table>
     <thead>
       <tr>
-        <th>Id</th><th>Year</th><th>Campus</th><th>Sheet Upload</th><th>Action</th>
+        <th>Id</th><th>Username</th>
       </tr>
     </thead>
     <tbody>
-      {% for report in reports %}
+      {% for user in users %}
         <tr>
-            <td>{{report.id}}</td>
-            <td>{{report.year}}</td>
-            <td>{{report.campus}}</td>
-            <td>{{report.excelfile}}</td>
-            <td>
-              <form action="{{ url_for('user_views.delete_report', report_id=report.id) }}" method="POST">
-                <button type="submit" class="btn-danger">Delete</button>
-              </form>
-            </td>
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
-
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Id</th><th>Department</th><th>Students</th><th>Report ID</th>
-    </thead>
-    <tbody>
-      {% for exceldata in exceldatas %}
-        <tr>
-            <td>{{exceldata.id}}</td>
-            <td>{{exceldata.department}}</td>
-            <td>{{exceldata.students}}</td>
-            <td>{{exceldata.report_id}}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endif %}  
+{% endif %} 
 {% endblock %}
