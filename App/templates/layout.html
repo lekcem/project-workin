@@ -128,8 +128,8 @@
         clear: both;
       }
       #main-content {
+        margin-top: 80px;
         transition: margin-left 0.3s ease;
-        margin-left: 0;
       }
 
 
@@ -150,6 +150,48 @@
         color: #d32f2f;
         cursor: pointer;
       }
+      .transparent-navbar {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+        height: 70px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+      }
+
+      .nav-wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+      }
+
+      .nav-logo {
+        height: 55px;
+        width: auto;
+        border-radius: 10px;
+        filter: opacity(0.8);
+        display:flex;
+        justify-content: center;
+      }
+
+      .nav-left, .nav-right {
+        display: flex;
+        align-items: center;
+      }
+      .centered-icon {
+        padding-bottom: 20px;
+        padding-right: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
 
       @media screen and (max-width: 600px) {
         .column {
@@ -161,9 +203,20 @@
   </head>
   
   <body>
-    <a href="#" data-target="slide-out" class="sidenav-trigger">
-      <i class="material-icons">menu</i>
-    </a>
+    <nav class="transparent-navbar">
+      <div class="nav-wrapper">
+        <div class="nav-left centered-icon">
+          <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large">
+            <i class="material-icons">menu</i>
+          </a>
+        </div>              
+        <div class="nav-right">
+          <a href="/"><img src="{{ url_for('static', filename='translogo.png') }}" alt="Logo" class="nav-logo"></a>
+        </div>
+      </div>
+    </nav>
+
+    
 
     <ul id="slide-out" class="sidenav">
       <div class="sidenav-close-wrapper">

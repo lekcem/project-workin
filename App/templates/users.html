@@ -6,14 +6,42 @@
 
 {% block content %}
 <style>
-  .form-container, .table-container {
-    background-color: #e0f7fa;
+  .main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1300px;
+    margin: 60px auto;
     padding: 20px;
-    margin: 20px auto;
-    border-radius: 15px;
-    max-width: 800px;
   }
 
+  .left-panel {
+    flex: 1 1 400px;
+    min-width: 350px;
+    max-width: 500px;
+  }
+
+  .right-panel {
+    flex: 2 1 600px;
+    min-width: 500px;
+  }
+
+  .form-container, .table-container{
+    padding: 2rem;
+    text-align: center;
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+  }
+
+  .table-container {
+    width: 100%;
+    max-width: 1000px; 
+    margin: 0 auto;
+  }
   .form-container form, .upload-form {
     display: flex;
     flex-direction: column;
@@ -61,6 +89,16 @@
     color: white;
   }
 
+  .bottom-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 1300px;
+    margin: 60px auto;
+    padding: 20px;
+  }
+
   .btn-danger {
     background-color: #e53935;
     color: white;
@@ -73,88 +111,100 @@
   .btn-danger:hover {
     background-color: #c62828;
   }
-  
 
 </style>
 
-<div class="form-container">
-  <p>Complete the form to unload statistics</p>
-</div>
+<div class="main-container">
+  <div class="left-panel">
+    <div class="form-container">
+      <p><strong>Note:</strong> Please upload an Excel file with the columns labelled <strong>department</strong> and <strong>students</strong> as shown below:</p>
+      <img src="{{ url_for('static', filename='disclaimer.png') }}" alt="Excel Example" style="width: 100%; max-width: 320px; height: auto; border-radius: 8px; margin-top: 10px;">
+    </div>
+  </div>
 
+  <div class="right-panel">
+    <div class="form-container">
+      <form class="upload-form" method="POST" action="/reports" enctype="multipart/form-data">
+        <div class="file-field input-field">
+          <div class="btn blue darken-1" style="border-radius: 8px;">
+            <span><i class="material-icons left">upload_file</i>Upload File</span>
+            <input type="file" name="excelfile" accept=".csv, .xlsx, .xls">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload a CSV or Excel file">
+          </div>
+        </div>
 
-<div class="form-container">
-  <form class="upload-form" method="POST" action="/reports" enctype="multipart/form-data">
-    <div class="input-field">
-      <input placeholder="excelfile" name="excelfile" type="file" class="validate">
+        <div class="input-field">
+          <select name="year" id="year" required>
+            <option value="" disabled selected>Choose Year</option>
+            {% for year in range(2020, 2031) %}
+              <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="input-field">
+          <select name="campus" id="campus" required>
+            <option value="" disabled selected>Choose Campus</option>
+            <option value="St. Augustine">St. Augustine</option>
+            <option value="Mona">Mona</option>
+            <option value="Cave Hill">Cave Hill</option>
+            <option value="Five Islands">Five Islands</option>
+          </select>
+        </div>
+
+        <button type="submit" name="action">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="bottom-container">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th><th>Year</th><th>Campus</th><th>Sheet Upload</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for report in reports %}
+            <tr>
+              <td>{{ report.id }}</td>
+              <td>{{ report.year }}</td>
+              <td>{{ report.campus }}</td>
+              <td>{{ report.excelfile }}</td>
+              <td>
+                <form action="{{ url_for('user_views.delete_report', report_id=report.id) }}" method="POST">
+                  <button type="submit" class="btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
-    <div class="input-field">
-      <select name="year" id="year" required>
-        <option value="" disabled selected>Choose Year</option>
-        {% for year in range(2020, 2031) %}
-          <option value="{{ year }}">{{ year }}</option>
-        {% endfor %}
-      </select>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th><th>Department</th><th>Students</th><th>Report ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for exceldata in exceldatas %}
+            <tr>
+              <td>{{ exceldata.id }}</td>
+              <td>{{ exceldata.department }}</td>
+              <td>{{ exceldata.students }}</td>
+              <td>{{ exceldata.report_id }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-    
-    <div class="input-field">
-      <select name="campus" id="campus" required>
-        <option value="" disabled selected>Choose Campus</option>
-        <option value="St. Augustine">St. Augustine</option>
-        <option value="Mona">Mona</option>
-        <option value="Cave Hill">Cave Hill</option>
-        <option value="Five Islands">Five Islands</option>
-      </select>
-    </div>
-    
+  </div>
 
-    <button type="submit" name="action">Submit</button>
-  </form>
 </div>
-
-
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Id</th><th>Year</th><th>Campus</th><th>Sheet Upload</th><th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for report in reports %}
-        <tr>
-            <td>{{report.id}}</td>
-            <td>{{report.year}}</td>
-            <td>{{report.campus}}</td>
-            <td>{{report.excelfile}}</td>
-            <td>
-              <form action="{{ url_for('user_views.delete_report', report_id=report.id) }}" method="POST">
-                <button type="submit" class="btn-danger">Delete</button>
-              </form>
-            </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Id</th><th>Department</th><th>Students</th><th>Report ID</th>
-    </thead>
-    <tbody>
-      {% for exceldata in exceldatas %}
-        <tr>
-            <td>{{exceldata.id}}</td>
-            <td>{{exceldata.department}}</td>
-            <td>{{exceldata.students}}</td>
-            <td>{{exceldata.report_id}}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
 {% endblock %}
