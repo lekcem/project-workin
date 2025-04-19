@@ -195,15 +195,20 @@
     <div id="main-content">{% block content %}{% endblock %}</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-    <!-- Initialization Script -->
     <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.sidenav');
+        M.Sidenav.init(elems, {
+          edge: 'left',
+          draggable: true
+        });
+      });
+
       document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('select');
         M.FormSelect.init(elems);
       });
-    </script>
-    <script>
+
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
