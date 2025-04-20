@@ -10,15 +10,20 @@
     margin: 0;
     padding: 0;
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .page-wrapper {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
+    flex-grow: 1;
+    overflow: hidden;
+    justify-content: center; 
   }
 
   .panel-section {
@@ -45,6 +50,8 @@
   .right-panel {
     flex: 2 1 600px;
     min-width: 500px;
+    display: flex;
+    justify-content: center; 
   }
 
   .form-container {
@@ -54,6 +61,8 @@
     backdrop-filter: blur(10px);
     border-radius: 20px;
     margin-bottom: 20px;
+    width: 100%; 
+    max-width: 600px; 
   }
 
   .form-container form, .upload-form {
@@ -90,6 +99,7 @@
   .table-section {
     padding: 20px;
     border-radius: 15px;
+    overflow-x: auto;
   }
 
   table {
@@ -108,7 +118,7 @@
   }
 
   th {
-    background-color:   #3890d0;
+    background-color: #3890d0;
     color: white;
   }
 
@@ -133,6 +143,80 @@
     cursor: pointer;
     text-align: center;
     transition: background-color 0.3s ease;
+  }
+
+  @media screen and (max-width: 768px) {
+    .page-wrapper {
+      padding: 10px;
+    }
+
+    .panel-section {
+      flex-direction: column;
+    }
+
+    .left-panel, .right-panel {
+      flex: 1 1 100%;
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      padding: 10px;
+      max-width: 100%;
+    }
+
+    input[type="text"], input[type="password"], input[type="file"], input[type="number"], select {
+      width: 100%;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+    }
+
+    table {
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 8px;
+    }
+
+    .btn-danger {
+      padding: 6px 12px;
+    }
+
+    
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .page-wrapper {
+      padding: 5px;
+    }
+
+    .form-container {
+      padding: 8px;
+    }
+
+    input[type="text"], input[type="password"], input[type="file"], input[type="number"], select {
+      font-size: 14px;
+    }
+
+    button[type="submit"] {
+      padding: 12px;
+      font-size: 16px;
+    }
+
+    table {
+      font-size: 12px;
+    }
+
+    th, td {
+      padding: 6px;
+    }
   }
 
 </style>
