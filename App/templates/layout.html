@@ -245,6 +245,22 @@
       {% endif %}
     </ul>
 
+    <form  method="POST" action="/login" style="margin: 20px 0 0 0; width: 700px;">
+      <div style="display: flex; flex-direction: column; align-items: center;">
+
+        <div class="lginform">
+          <input style="border: none; text-align: center; width: 100%;" placeholder="Username" name="username" type="text" required>
+        </div>
+    
+        <div class="lginform" style="margin-top: 25px; margin-bottom: 25px;">
+          <input style="border: none; text-align: center; width: 100%;" placeholder="Password" name="password" type="password" required>
+        </div>
+    
+        <button class="loginbut" type="submit">Login</button>
+      
+      </div>
+    </form>
+
     <div id="main-content">{% block content %}{% endblock %}</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
