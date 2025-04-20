@@ -4,45 +4,100 @@
 
 {{ super() }}
 
-
-
 {% block content %}
-<div class="container" style="display: flex; width: 100%; ">
-  <div class="split left">
-      <div style="margin: 20px 60px 0 0;">
-      <a href="/"><img src="{{ url_for('static', filename='ghostlogo.png') }}" alt="Logo" style=" border-radius: 30px; margin-top: 10px; margin-left: 10px; width: 150px; height: 60px; filter: opacity(0.6)"></a>
-      <strong>
-      <h1 class="welcome" style="margin: 25px 0 0 0;">Welcome to the</h1>
-      <h1 class="welcome" style="margin: 0 0 0 0;">UWI Statistics Platform</h1>   
-        
-      </strong>
+<style>
+  
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+  }
 
-      </div>
+  .split.left,
+  .split.right {
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .split.left div {
+    margin: 20px 0 !important;
+  }
+
+  .split.right > div {
+    width: 100% !important;
+    height: auto !important;
+    margin: 20px 0 0 0 !important;
+    padding: 20px;
+  }
+
+  .split.right img {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 20px;
+  }
+
+  form {
+    width: 100% !important;
+    padding: 0 10px;
+  }
+
+  .lginform input {
+    width: 100% !important;
+  }
+
+  .loginbut {
+    width: 90%;
+  }
+
+  .welcome {
+    text-align: center;
+    font-size: 22px;
+  }
+
+  .loging {
+    text-align: center;
+    margin-left: 0 !important;
+  }
+}
+</style>
+
+<div class="container" style="display: flex; width: 100%;">
+  <div class="split left">
+    <div style="margin: 20px 60px 0 0;">
+      <a href="/"><img src="{{ url_for('static', filename='ghostlogo.png') }}" alt="Logo" style="border-radius: 30px; margin-top: 10px; margin-left: 10px; width: 150px; height: 60px; filter: opacity(0.6)"></a>
+      <strong>
+        <h1 class="welcome" style="margin: 25px 0 0 0;">Welcome to the</h1>
+        <h1 class="welcome" style="margin: 0;">UWI Statistics Platform</h1>
+      </strong>
     </div>
+  </div>
 
   <div class="split right">
-      <div style="background-color: white; border-radius: 30px; height: 600px; flex:1; margin: 100px 0px 0px 0px;">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="  width: 620px; height: 200px; border-radius: 30px;">
-        <h1 class="loging" style="margin:10px 0 2px 50px; font-size: 30px;">Login</h1>
-        <p class="loging" style="margin:10px 0 0 50px;">Enter your login credentials to access the platform</p>
+    <div style="background-color: white; border-radius: 30px; height: auto; flex:1; margin: 100px 0px 0px 0px;">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="width: 100%; max-width: 620px; height: auto; border-radius: 30px;">
+      <h1 class="loging" style="margin:10px 0 2px 50px; font-size: 30px;">Login</h1>
+      <p class="loging" style="margin:10px 0 0 50px;">Enter your login credentials to access the platform</p>
 
-        <form  method="POST" action="/login" style="margin: 20px 0 0 0; width: 700px;">
-          <div style="display: flex; flex-direction: column; align-items: center;">
+      <form method="POST" action="/login" style="margin: 20px auto 0 auto; width: 100%; max-width: 700px;">
+        <div style="display: flex; flex-direction: column; align-items: center; padding-bottom: 30px;">
 
-            <div class="lginform">
-              <input style="border: none; text-align: center; width: 100%;" placeholder="Username" name="username" type="text" required>
-            </div>
-        
-            <div class="lginform" style="margin-top: 25px; margin-bottom: 25px;">
-              <input style="border: none; text-align: center; width: 100%;" placeholder="Password" name="password" type="password" required>
-            </div>
-        
-            <button class="loginbut" type="submit">Login</button>
-          
+          <div class="lginform" style="width: 100%; max-width: 400px;">
+            <input style="border: none; text-align: center; width: 100%;" placeholder="Username" name="username" type="text" required>
           </div>
-        </form>
-      </div>
-    </div>
-</div>
+          
+          <div class="lginform" style="margin-top: 25px; margin-bottom: 25px; width: 100%; max-width: 400px;">
+            <input style="border: none; text-align: center; width: 100%;" placeholder="Password" name="password" type="password" required>
+          </div>
 
-  {% endblock %}
+          <button class="loginbut" type="submit">Login</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
