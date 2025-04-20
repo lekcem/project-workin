@@ -6,7 +6,6 @@ from.index import index_views
 
 from App.controllers import (
     login,
-    get_all_users
 )
 
 auth_views = Blueprint('auth_views', __name__, template_folder='../templates')
@@ -32,7 +31,7 @@ def identify_page():
 def login_action():
     data = request.form
     token = login(data['username'], data['password'])
-    response = redirect('/')  # Redirect to root
+    response = redirect('/')  
     if not token:
         flash('Bad username or password given'), 401
     else:
@@ -42,7 +41,7 @@ def login_action():
 
 @auth_views.route('/logout', methods=['GET'])
 def logout_action():
-    response = redirect('/')  # Redirect to root
+    response = redirect('/') 
     flash("Logged Out!")
     unset_jwt_cookies(response)
     return response
