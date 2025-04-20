@@ -8,44 +8,201 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>App Users</title>
+    <title>myeStats</title>
+    <style>
+      body {
+        background-image: url('office.jpg');
+        background-position: absolute;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        height: 150vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        font-family: "Cabin", sans-serif;
+      }
 
+      .sidenav {
+        background-color: #e3f2fd;
+        width: 250px;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        overflow: hidden;
+        transform: translateX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .sidenav.closed {
+        transform: translateX(-100%) !important;
+      }
+
+      .sidenav a {
+        color: #0d47a1;
+        font-weight: 600;
+      }
+
+      .sidenav .user-view .name {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .sidenav-trigger {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1000;
+      }
+
+      .sidenav-trigger i {
+        font-size: 32px;
+        color: white;
+      }
+
+      .sidenav-close-wrapper {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1001;
+      }
+
+      .sidenav-close i {
+        font-size: 18px;
+        color: #333;
+        transition: color 0.3s ease;
+      }
+
+      .sidenav-close:hover i {
+        color: #d32f2f;
+        cursor: pointer;
+      }
+
+      #main-content {
+        transition: margin-left 0.3s ease;
+        margin-left: 250px;
+      }
+
+      #main-content.expanded {
+        margin-left: 0 !important;
+      }
+    .split {
+      height: 100%;
+      width: 50%;
+      position: absolute;
+      overflow-x: hidden;
+    }
+    
+    .left {
+      top: 125px;
+      left: 0;
+      margin-left: 25px;
+      padding-right: 40px;
+    }
+    
+    .right {
+      top: 170px;
+      right: 0;
+      padding: 10px;
+
+    }
+
+    th{
+      text-align: center;
+      padding: 0 2px 0 2px;
+    }
+
+  </style>
   </head>
   <body>
-    <nav class="purple">
-      <div class="nav-wrapper">
-        <a href="#!" class="brand-logo center">App Users</a>
-        <div class="nav-wrapper">
-            <ul id="nav-mobile" class="left">
-                <li><a href="/">Home</a></li>
-                <li><a href="/users">Users Jinja</a></li>
-                <li><a href="/static/users">Users JS</a></li>
-            </ul>
-        </div>
+    <a href="#!" class="sidenav-trigger">
+      <i class="material-icons">menu</i>
+    </a>
+
+    <ul id="slide-out" class="sidenav sidenav-fixed">
+      <div class="sidenav-close-wrapper">
+        <a href="#!" class="sidenav-close">
+          <i class="material-icons">close</i>
+        </a>
       </div>
-    </nav>
-    
-    <div class="container" id="content">
-        <div class="row">
-            <p>
-                This is table is rendered on the Client. JavaScript code requests the data from <a href="/api/users">/api/users</a> and writes it to this page.
-            </p>
+      <li>
+        <div class="user-view">
+          <div class="background" style="background-color: #226cc1;"></div>
+          <a href="#"><img src='translogo.png' alt="Logo" style="  width: 200px; height: 60px; border-radius: 8px; padding-left: 15px;"></a>
         </div>
-        <div class="row">
-            <table>
-                <thead>
-                  <tr>
-                    <th>Id</th><th>Username</th>
-                  </tr>
-                </thead>
-                <tbody id="result">
-                
-                <tbody>
-            </table>
-        </div>
+      </li>
+      <li><a href="/"><i class="material-icons">home</i>Home</a></li>
+      <li><a href="/users"><i class="material-icons">cloud_upload</i>Upload Report</a></li>
+      <li><a href="/static/users"><i class="material-icons">description</i>View Report</a></li>
+      <li><a href="/createuser"><i class="material-icons">person_add</i>Create User</a></li>
+      <li><a href="/logout"><i class="material-icons">exit_to_app</i>Logout</a></li>
+      <li><a href="/loginpage"><i class="material-icons">lock_open</i>Login</a></li>
+    </ul>
+
+   <div id="main-content">
+      <div class="split left">
+        <div class="container" id="content" >
+          <div class="row">
+              <p>
+              </p>
+          </div>
+          <div class="row">
+            
+          </div>
+      </div>
+
+      <div class="row">
+        <table>
+            <thead>
+              <tr>
+                <th>Id</th><th>Officer Name</th><th>Day</th><th>Month</th><th>year</th><th>campus</th><th>Sheet</th><th>actions</th>
+              </tr>
+            </thead>
+            <tbody id="result2">
+            <tbody>
+        </table>
     </div>
+  </div>
+  <div class="split right">
+    <div id="excelDataContainer" style="display:none;"></div>
+
+  <div id="pieChartWrapper" style="display:none;width: 400px; height: 400px;">
+    <canvas id="pieChart" width="400" height="400" style="margin-left: 150px;"></canvas>
+  </div>
+
+  <div id="barChartWrapper" style="display:none; width: 400px; height: 400px;">
+    <canvas id="barChart" width="400" height="400" style="margin-left: 150px;"></canvas>
+  </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="main.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Prevent Materialize from overriding our custom sidenav behavior
+        const sidenav = document.querySelector('.sidenav');
+        const mainContent = document.getElementById('main-content');
+        const closeBtn = document.querySelector('.sidenav-close');
+        const menuBtn = document.querySelector('.sidenav-trigger');
+
+        closeBtn.addEventListener('click', function () {
+          sidenav.classList.add('closed');
+          mainContent.classList.add('expanded');
+        });
+
+        menuBtn.addEventListener('click', function () {
+          sidenav.classList.remove('closed');
+          mainContent.classList.remove('expanded');
+        });
+
+        var selects = document.querySelectorAll('select');
+        M.FormSelect.init(selects);
+      });
+
+    </script>
   </body>
 </html>

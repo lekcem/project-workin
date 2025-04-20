@@ -5,51 +5,240 @@
 {{ super() }}
 
 {% block content %}
-    <div class="row">
-        <p>
-            This is table is renderd on the Server. Flask gets the data from the database and uses jinja templates to dyanmically render this page when a request is sent to <a href="/users">/users</a>.
-        </p>
+<style>
+  .main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1300px;
+    margin: 60px auto;
+    padding: 20px;
+    height: 500px;
+  }
+
+  .left-panel {
+    flex: 1 1 400px;
+    min-width: 350px;
+    max-width: 500px;
+    height: 500px;
+  }
+
+  .right-panel {
+    flex: 2 1 600px;
+    min-width: 500px;
+  }
+
+  .form-container, .table-container{
+    padding: 2rem;
+    text-align: center;
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+  }
+
+  .table-container {
+    width: 100%;
+    max-width: 1000px; 
+    margin: 0 auto;
+  }
+  .form-container form, .upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  input[type="text"], input[type="password"], input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-family: "Cabin", sans-serif;
+    font-size: 16px;
+  }
+
+  button[type="submit"] {
+    background-color: #2c11db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-family: "Cabin", sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #1a0dab;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+  }
+
+  th {
+    background-color: #0097a7;
+    color: white;
+  }
+
+  .bottom-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 1400px;
+    padding: 20px;
+
+
+  }
+
+  .btn-danger {
+    background-color: #e53935;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .btn-danger:hover {
+    background-color: #c62828;
+  }
+  .viewreport {
+    background-color: #0097a7;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+
+</style>
+
+<div class="main-container">
+  <div class="left-panel">
+    <div class="form-container">
+      <p><strong>Note:</strong> Please upload an Excel file with the columns labelled <strong>department</strong> and <strong>students</strong> as shown below:</p>
+      <img src="{{ url_for('static', filename='disclaimer.png') }}" alt="Excel Example" style="width: 100%; max-width: 320px; height: auto; border-radius: 8px; margin-top: 10px;">
     </div>
 
-    <div class="row">
-      <form class="col s12" method="POST" action="/users">
-        
-        <div class="row">
-          <div class="input-field col s6">
-            <input placeholder="Username" name="username" type="text" class="validate">
-            <label for="username">Username</label>
+
+    <div class="viewreport" onclick="window.location.href='/static/users'">
+      <h2>View Report</h2>
+      <p>Browse previous reports and visualize your results.</p>
+  </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="form-container" style="height: 600px;">
+      <form class="upload-form" method="POST" action="/reports" enctype="multipart/form-data">
+        <div class="file-field input-field">
+          <div class="btn blue darken-1" style="border-radius: 8px;">
+            <span><i class="material-icons left">upload_file</i>Upload File</span>
+            <input type="file" name="excelfile" accept=".csv, .xlsx, .xls">
           </div>
-          <div class="input-field col s6">
-            <input placeholder="password" name="password" type="password" class="validate">
-            <label for="password">Password</label>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload a CSV or Excel file">
           </div>
         </div>
-      
-        <div class="row">
-          <div class="input-field col s12">
-            <button class="btn waves-effect waves-light right purple" type="submit" name="action">Submit</button>
-          </div>
-        </div> 
 
+        <div class="input-field">
+          <input type="text" name="officername" id="officername" required>
+          <label for="officername">officername</label>
+        </div>
+
+        <div class="input-field">
+          <input type="number" name="day" id="day" required>
+          <label for="day">day</label>
+
+          <div class="input-field">
+            <input type="number" name="month" id="month" required>
+            <label for="month">month</label>
+
+        <div class="input-field">
+          <select name="year" id="year" required>
+            <option value="" disabled selected>Choose Year</option>
+            {% for year in range(2020, 2031) %}
+              <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="input-field">
+          <select name="campus" id="campus" required>
+            <option value="" disabled selected>Choose Campus</option>
+            <option value="St. Augustine">St. Augustine</option>
+            <option value="Mona">Mona</option>
+            <option value="Cave Hill">Cave Hill</option>
+            <option value="Five Islands">Five Islands</option>
+          </select>
+        </div>
+
+        <button type="submit" name="action">Submit</button>
       </form>
     </div>
-
-    <div class="row">
+  </div>
+</div>
+<div class="bottom-container" style="position: absolute; left: 0;">
+    <div class="table-container" >
       <table>
         <thead>
           <tr>
-            <th>Id</th><th>Username</th>
+            <th>Id</th><th>Year</th><th>Campus</th><th>Sheet Upload</th><th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {% for user in users %}
+          {% for report in reports %}
             <tr>
-                <td>{{user.id}}</td>
-                <td>{{user.username}}</td>
+              <td>{{ report.id }}</td>
+              <td>{{ report.officername }}</td>
+              <td>{{ report.day }}</td>
+              <td>{{ report.month }}</td>
+              <td>{{ report.year }}</td>
+              <td>{{ report.campus }}</td>
+              <td>{{ report.excelfile }}</td>
+              <td>
+                <form action="{{ url_for('user_views.delete_report', report_id=report.id) }}" method="POST">
+                  <button type="submit" class="btn-danger">Delete</button>
+                </form>
+              </td>
             </tr>
           {% endfor %}
-        <tbody>
+        </tbody>
       </table>
     </div>
+
+    <div class="table-container" style="margin-left: 0; margin-right: 0;">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th><th>Department</th><th>Students</th><th>Report ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for exceldata in exceldatas %}
+            <tr>
+              <td>{{ exceldata.id }}</td>
+              <td>{{ exceldata.department }}</td>
+              <td>{{ exceldata.students }}</td>
+              <td>{{ exceldata.report_id }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 
 {% endblock %}
