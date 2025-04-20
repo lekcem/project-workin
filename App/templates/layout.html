@@ -1,291 +1,70 @@
 <!doctype html>
 <html>
   <head>
+  
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+     <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{% block title %}{% endblock %}</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
-
-    <!-- Materialize CSS and Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-    <style>
-      body {
-        background-image: url("{{ url_for('static', filename='office.jpg') }}") !important;
-        background-position: absolute;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
-        height: 150vh;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        font-family: "Cabin", sans-serif;
-      }
-
-      .loginbut {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #0f56da; 
-        color: white;
-        border: none;
-        border-radius: 17px;
-        width: 140px;
-        height: 40px;
-        font-size: 18px;
-        letter-spacing: 0.5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      }
-
-      .loginbut:hover {
-        background-color: #1A08A0;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-      }
-
-      .loginbut:active {
-        background-color: #10055F;
-        transform: translateY(0);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      .lginform {
-        margin: 10px 0;
-        background-color: whitesmoke;
-        border-radius: 5px;
-        height: 40px;
-        width: 350px;
-        text-align: left;
-      }
-
-      .welcome {
-        font-size: 50px;
-        font-weight: 500;
-      }
-
-      .loging {
-        font-size: 15px;
-        font-weight: 700;
-      }
-
-      .sidenav {
-        background-color: #e3f2fd;
-        width: 250px;
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
-        overflow: hidden;
-      }
-
-      .sidenav a {
-        color: #0d47a1;
-        font-weight: 600;
-      }
-
-      .sidenav .user-view .name {
-        font-size: 20px;
-        font-weight: bold;
-      }
-
-      .sidenav-trigger {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 1000;
-      }
-
-      .sidenav-trigger i {
-        font-size: 32px;
-        color: white;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      .column {
-        float: left;
-        width: 33.33%;
-        padding: 10px;
-        height: 300px;
-      }
-
-      .row:after {
-        content: "";
-        display: table;
-        clear: both;
-      }
-      #main-content {
-        margin-top: 80px;
-        transition: margin-left 0.3s ease;
-      }
-
-
-      .sidenav-close-wrapper {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 1001;
-      }
-
-      .sidenav-close i {
-        font-size: 18px;
-        color: #333;
-        transition: color 0.3s ease;
-      }
-
-      .sidenav-close:hover i {
-        color: #d32f2f;
-        cursor: pointer;
-      }
-      .transparent-navbar {
-        background: rgba(255, 255, 255, 0.1);
-        box-shadow: none;
-        height: 70px;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 999;
-        display: flex;
-        align-items: center;
-        padding: 0 15px;
-      }
-
-      .nav-wrapper {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        align-items: center;
-      }
-
-      .nav-logo {
-        height: 55px;
-        width: auto;
-        border-radius: 10px;
-        filter: opacity(0.8);
-        display:flex;
-        justify-content: center;
-      }
-
-      .nav-left, .nav-right {
-        display: flex;
-        align-items: center;
-      }
-      .centered-icon {
-        padding-bottom: 20px;
-        padding-right: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-      }
-
-
-      @media screen and (max-width: 600px) {
-        .column {
-          width: 100%;
-        }
-      }
-
-    </style>
   </head>
-  
   <body>
-    <nav class="transparent-navbar">
-      <div class="nav-wrapper">
-        <div class="nav-left centered-icon">
-          <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large">
-            <i class="material-icons">menu</i>
-          </a>
-        </div>              
-        <div class="nav-right">
-          <a href="/"><img src="{{ url_for('static', filename='translogo.png') }}" alt="Logo" class="nav-logo"></a>
-        </div>
-      </div>
-    </nav>
-
     
+      <nav class="purple">
+          <div class="nav-wrapper">
+              <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
+              <ul id="nav-mobile" class="left">
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/users">Users Jinja</a></li>
+                  {% if is_authenticated %}
+                    <li><a href="/identify">Identify</a></li>
+                  {% endif %}
+                  <li><a href="/static/users">Users JS</a></li>
+              </ul>
+              {% if is_authenticated %}
+              <ul id="nav-mobile" class="right">
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+              {% else %}
+              <form class="right navbar-form" method="POST" action="/login" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
+                  <div class="input-field" style="margin-right: 10px;">
+                      <input placeholder="username" value="bob" name="username" type="text" class="validate" required>
+                      <label for="username">username</label>
+                  </div>
+                  <div class="input-field" style="margin-right: 10px;">
+                      <input placeholder="password"value="bobpass" name="password" type="password" class="validate" required>
+                      <label for="password">Password</label>
+                  </div>
+                  <button type="submit" class="btn waves-effect waves-light">Login</button>
+              </form>
+              {% endif %}
+              
+          </div>
+      </nav>
+      <style>
+          .navbar-form label {
+              color: white !important;
+          }
+      </style>
 
-    <ul id="slide-out" class="sidenav">
-      <div class="sidenav-close-wrapper">
-        <a href="#!" class="sidenav-close">
-          <i class="material-icons">close</i>
-        </a>
-      </div>
-      <li>
-        <div class="user-view">
-          <div class="background" style="background-color: #226cc1;"></div>
-          <a href="#"><img src="{{ url_for('static', filename='translogo.png') }}" alt="Logo" style="  width: 200px; height: 60px; border-radius: 8px; padding-left: 15px;"></a>
-        </div>
-      </li>
-      <li><a href="/"><i class="material-icons">home</i>Home</a></li>
-      {% if is_authenticated %}
-        <li><a href="/users"><i class="material-icons">cloud_upload</i>Upload Report</a></li>
-      {% endif %}
-      <li><a href="/static/users"><i class="material-icons">description</i>View Report</a></li>
-      {% if is_authenticated %}
-        <li><a href="/createuser"><i class="material-icons">person_add</i>Create User</a></li>
-      {% endif %}
-      {% if is_authenticated %}
-        <li><a href="/logout"><i class="material-icons">exit_to_app</i>Logout</a></li>
-      {% else %}
-        <li><a href="/loginpage"><i class="material-icons">lock_open</i>Login</a></li>
-      {% endif %}
-    </ul>
-
-    <form  method="POST" action="/login" style="margin: 20px 0 0 0; width: 700px;">
-      <div style="display: flex; flex-direction: column; align-items: center;">
-
-        <div class="lginform">
-          <input style="border: none; text-align: center; width: 100%;" placeholder="Username" name="username" type="text" required>
-        </div>
-    
-        <div class="lginform" style="margin-top: 25px; margin-bottom: 25px;">
-          <input style="border: none; text-align: center; width: 100%;" placeholder="Password" name="password" type="password" required>
-        </div>
-    
-        <button class="loginbut" type="submit">Login</button>
-      
-      </div>
-    </form>
-
-    <div id="main-content">{% block content %}{% endblock %}</div>
+    <div class="container" id="content">{% block content %}{% endblock %}</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('.sidenav');
-        M.Sidenav.init(elems, {
-          edge: 'left',
-          draggable: true
-        });
-      });
+       M.AutoInit();
 
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('select');
-        M.FormSelect.init(elems);
-      });
-      
-      M.AutoInit();
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          {% for message in messages %}
-            M.toast({html: '{{ message }}'});
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+              M.toast({html: '{{message}}'})
+              {% endfor %}
+          {% endif %}
+        {% endwith %}
+       
     </script>
   </body>
 </html>
