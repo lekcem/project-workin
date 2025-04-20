@@ -35,8 +35,8 @@ def login_action():
     if not token:
         flash('Bad username or password given'), 401
     else:
-        flash('Login Successful')
         set_access_cookies(response, token) 
+        flash('Login Successful')
     return response
 
 @auth_views.route('/logout', methods=['GET'])
