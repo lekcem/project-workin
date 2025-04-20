@@ -4,6 +4,7 @@ from App.database import db
 from flask import Blueprint, current_app
 import pandas as pd
 
+EXPECTED_HEADERS = ['department', 'students']
 
 
 def create_user(username, password):
@@ -64,10 +65,20 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
 
+def process_excel_file2(filepath):
+    df = pd.read_excel(filepath, engine='openpyxl')
+
+    if not set(EXPECTED_HEADERS).issubset(df.columns):
+        return False  
+    return True
+
+
 def process_excel_file(filepath, report_id):
     df = pd.read_excel(filepath, engine='openpyxl')
 
-
+    if not set(EXPECTED_HEADERS).issubset(df.columns):
+        return False
+    
     for index, row in df.iterrows():
         department = row['department']  
         students = row['students']

@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from.index import index_views
 
 from App.controllers import (
+    process_excel_file2,
     get_user,
     user_delete,
     report_delete,
@@ -121,9 +122,15 @@ def create_report_action():
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
-
+        if not process_excel_file2(filepath): 
+            flash('Invalid file format. Please upload an Excel file.')
+            os.remove(filepath)
+            return redirect(request.url)
+        
         report = create_report(officername, day, month, year, campus, filename)
-        process_excel_file(filepath, report.id)  
+        
+    if process_excel_file(filepath, report.id):
+        
         flash(f"Report form {year} created successfully!")
         return redirect(url_for('user_views.get_report_page'))
 
