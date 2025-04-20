@@ -74,8 +74,13 @@ def static_user_page():
 #test
 @user_views.route('/reports', methods=['POST'])
 def create_report_action():
+
+    officername = request.form.get('officername')
+    day = request.form.get('day')
+    month = request.form.get('month')
     year = request.form.get('year')
     campus = request.form.get('campus')
+    
 
     ensure_upload_folder()
 
@@ -94,9 +99,9 @@ def create_report_action():
         file.save(filepath)
 
 
-        report = create_report(year, campus, filename)
+        report = create_report(officername, day, month, year, campus, filename)
         process_excel_file(filepath, report.id)  
-        flash(f"Report for {year} created successfully!")
+        flash(f"Report form {year} created successfully!")
         return redirect(url_for('user_views.get_report_page'))
 
     else:

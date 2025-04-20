@@ -29,12 +29,18 @@ class User(db.Model):
 
 class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    officername = db.Column(db.String(60), nullable=False)
+    day = db.Column(db.Integer, nullable=False)
+    month = db.Column(db.Integer, nullable=False)
     year = db.Column(db.Integer, nullable=False)
     campus = db.Column(db.String(60), nullable=False)
     excelfile = db.Column(db.String(120), nullable=False)
     exceldata = db.relationship('ExcelData', backref='report', lazy=True,cascade='all, delete-orphan')  
 
-    def __init__(self, year, campus, excelfile):
+    def __init__(self, officername, day, month, year, campus, excelfile):
+        self.officername = officername
+        self.day = day
+        self.month = month
         self.year = year
         self.campus = campus
         self.excelfile = excelfile
@@ -42,6 +48,9 @@ class Report(db.Model):
     def get_json(self):
         return {
             'id': self.id,
+            'officername': self.officername,
+            'day': self.day,
+            'month': self.month,
             'year': self.year,
             'campus': self.campus,
             'excelfile': self.excelfile

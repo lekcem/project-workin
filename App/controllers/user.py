@@ -37,8 +37,8 @@ def update_user(id, username):
 
 #
 
-def create_report(year,campus, excelfile): 
-    newreport = Report(year=year, campus=campus, excelfile=excelfile)
+def create_report(officername, day, month, year,campus, excelfile): 
+    newreport = Report(officername=officername, day=day, month=month, year=year, campus=campus, excelfile=excelfile)
     db.session.add(newreport)
     db.session.commit()
     return newreport

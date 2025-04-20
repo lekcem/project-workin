@@ -12,6 +12,9 @@ function loadTable2(reports){
     for(let report of reports){
         table.innerHTML += `<tr>
             <td>${report.id}</td>
+            <td>${report.officername}</td>
+            <td>${report.day}</td>
+            <td>${report.month}</td>
             <td>${report.year}</td>
             <td>${report.campus}</td>
             <td>${report.excelfile}</td>

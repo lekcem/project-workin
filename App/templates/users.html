@@ -14,12 +14,14 @@
     max-width: 1300px;
     margin: 60px auto;
     padding: 20px;
+    height: 500px;
   }
 
   .left-panel {
     flex: 1 1 400px;
     min-width: 350px;
     max-width: 500px;
+    height: 500px;
   }
 
   .right-panel {
@@ -94,7 +96,7 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    width: 1700px;
+    width: 1400px;
     padding: 20px;
 
 
@@ -112,6 +114,15 @@
   .btn-danger:hover {
     background-color: #c62828;
   }
+  .viewreport {
+    background-color: #0097a7;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
 
 </style>
 
@@ -121,10 +132,16 @@
       <p><strong>Note:</strong> Please upload an Excel file with the columns labelled <strong>department</strong> and <strong>students</strong> as shown below:</p>
       <img src="{{ url_for('static', filename='disclaimer.png') }}" alt="Excel Example" style="width: 100%; max-width: 320px; height: auto; border-radius: 8px; margin-top: 10px;">
     </div>
+
+
+    <div class="viewreport" onclick="window.location.href='/static/users'">
+      <h2>View Report</h2>
+      <p>Browse previous reports and visualize your results.</p>
+  </div>
   </div>
 
   <div class="right-panel">
-    <div class="form-container">
+    <div class="form-container" style="height: 600px;">
       <form class="upload-form" method="POST" action="/reports" enctype="multipart/form-data">
         <div class="file-field input-field">
           <div class="btn blue darken-1" style="border-radius: 8px;">
@@ -135,6 +152,19 @@
             <input class="file-path validate" type="text" placeholder="Upload a CSV or Excel file">
           </div>
         </div>
+
+        <div class="input-field">
+          <input type="text" name="officername" id="officername" required>
+          <label for="officername">officername</label>
+        </div>
+
+        <div class="input-field">
+          <input type="number" name="day" id="day" required>
+          <label for="day">day</label>
+
+          <div class="input-field">
+            <input type="number" name="month" id="month" required>
+            <label for="month">month</label>
 
         <div class="input-field">
           <select name="year" id="year" required>
@@ -159,9 +189,9 @@
       </form>
     </div>
   </div>
-
-  <div class="bottom-container">
-    <div class="table-container" style="margin-left: 0; margin-right: 0;">
+</div>
+<div class="bottom-container" style="position: absolute; left: 0;">
+    <div class="table-container" >
       <table>
         <thead>
           <tr>
@@ -172,6 +202,9 @@
           {% for report in reports %}
             <tr>
               <td>{{ report.id }}</td>
+              <td>{{ report.officername }}</td>
+              <td>{{ report.day }}</td>
+              <td>{{ report.month }}</td>
               <td>{{ report.year }}</td>
               <td>{{ report.campus }}</td>
               <td>{{ report.excelfile }}</td>
@@ -207,5 +240,5 @@
     </div>
   </div>
 
-</div>
+
 {% endblock %}
