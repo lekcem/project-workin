@@ -103,7 +103,7 @@
 
 <div class="form-container" style="margin-top: 90px;">
   <h2>Create a New Admin User</h2>
-  <form method="POST" action="/users">
+  <form method="POST" action="/createuser">
     <input placeholder="Username" name="username" type="text" class="validate" required>
     <input placeholder="Password" name="password" type="password" class="validate" required>
     <button type="submit" name="action">Create User</button>
@@ -117,13 +117,20 @@
       <tr>
         <th>ID</th>
         <th>Username</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
       {% for user in users %}
         <tr>
           <td>{{ user.id }}</td>
-          <td>{{ user.username }}</td>
+          <td>{{ user.username }}</td>  
+
+          <td>
+            <form action="{{ url_for('user_views.delete_user', user_id=user.id) }}" method="POST">
+              <button type="submit" class="btn-danger">Delete</button>
+            </form>
+          </td>
         </tr>
       {% endfor %}
     </tbody>

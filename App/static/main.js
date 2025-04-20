@@ -19,9 +19,9 @@ function loadTable2(reports){
             <td>${report.campus}</td>
             <td>${report.excelfile}</td>
             <td>
-                <button onclick="fetchExcelData(${report.id})">Show Excel Data</button>
-                <button onclick="generatePieChart(${report.id})">Generate Pie Chart</button>
-                <button onclick="generateBarChart(${report.id})">Generate Bar Chart</button>
+                <button onclick="fetchExcelData(${report.id})">Excel Data</button>
+                <button onclick="generatePieChart(${report.id})">Pie Chart</button>
+                <button onclick="generateBarChart(${report.id})">Bar Chart</button>
 
             </td>
 

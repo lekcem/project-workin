@@ -112,4 +112,13 @@ def report_delete(id):
 def get_report(id):
     return Report.query.get(id)
  
+def user_delete(id):
+    user = User.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    return
+
+
+def get_user(id):
+    return User.query.get(id)
 

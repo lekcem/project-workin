@@ -261,7 +261,6 @@
         var elems = document.querySelectorAll('select');
         M.FormSelect.init(elems);
       });
-      M.autoinit();
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}

@@ -5,6 +5,8 @@ from werkzeug.utils import secure_filename
 from.index import index_views
 
 from App.controllers import (
+    get_user,
+    user_delete,
     report_delete,
     get_report,
     get_excel_data,
@@ -26,6 +28,36 @@ from App.controllers import (
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
+@user_views.route('/createuser', methods=['GET'])
+@jwt_required()
+def get_createuser_page():
+    users = get_all_users()
+    return render_template('createuser.html', users=users)
+
+@user_views.route('/createuser', methods=['POST'])
+def create_createuser_action():
+    data = request.form
+    flash(f"User {data['username']} created!")
+    create_user(data['username'], data['password'])
+    return redirect(url_for('user_views.get_createuser_page'))
+
+@user_views.route('/api/createuser', methods=['GET'])
+def get_users_action():
+    users = get_all_users_json()
+    return jsonify(users)
+@user_views.route('/api/createuser', methods=['POST'])
+def create_user_endpoint():
+    data = request.json
+    user = create_user(data['username'], data['password'])
+    return jsonify({'message': f"user {user.username} created with id {user.id}"})
+
+
+@user_views.route('/loginpage', methods=['GET'])
+def get_loginpage_page():
+    users = get_all_users()
+    return render_template('login.html', users=users)
+
+
 @user_views.route('/users', methods=['GET'])
 @jwt_required()
 def get_user_page():
@@ -34,25 +66,13 @@ def get_user_page():
     exceldatas = get_all_exceldatas()
     return render_template('users.html', users=users, reports=reports, exceldatas=exceldatas)
 
-@user_views.route('/createuser', methods=['GET'])
-@jwt_required()
-def get_createuser_page():
-    users = get_all_users()
-    return render_template('createuser.html', users=users)
-
-@user_views.route('/loginpage', methods=['GET'])
-def get_loginpage_page():
-    users = get_all_users()
-    return render_template('login.html', users=users)
-
-
-@user_views.route('/users', methods=['POST'])
+@user_views.route('/createuser', methods=['POST'])
 def create_user_action():
     data = request.form
     flash(f"User {data['username']} created!")
     create_user(data['username'], data['password'])
-    return redirect(url_for('user_views.get_user_page'))
-
+    return redirect(url_for('user_views.get_createuser_page'))
+'''
 @user_views.route('/api/users', methods=['GET'])
 def get_users_action():
     users = get_all_users_json()
@@ -63,6 +83,9 @@ def create_user_endpoint():
     data = request.json
     user = create_user(data['username'], data['password'])
     return jsonify({'message': f"user {user.username} created with id {user.id}"})
+'''
+
+
 
 @user_views.route('/static/users', methods=['GET'])
 def static_user_page():
@@ -165,5 +188,19 @@ def delete_report(report_id):
         flash('Report not found!', 'error')
 
     return redirect(url_for('user_views.show_reports'))
+
+@user_views.route('/delete_user/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    user = get_user(user_id)
+
+    if user:
+        user_delete(user_id)
+        flash('User deleted successfully!', 'success')
+    else:
+        flash('User not found!', 'error')
+
+    return redirect(url_for('user_views.get_createuser_page'))
+
+
 
 
