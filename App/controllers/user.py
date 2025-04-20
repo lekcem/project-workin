@@ -4,6 +4,8 @@ from App.database import db
 from flask import Blueprint, current_app
 import pandas as pd
 
+
+
 def create_user(username, password):
     newuser = User(username=username, password=password)
     db.session.add(newuser)
