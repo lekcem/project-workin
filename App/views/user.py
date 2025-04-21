@@ -129,14 +129,9 @@ def create_report_action():
         
         report = create_report(officername, day, month, year, campus, filename)
         
-    if process_excel_file(filepath, report.id):
-        
-        flash(f"Report form {year} created successfully!")
-        return redirect(url_for('user_views.get_report_page'))
-
-    else:
-        flash('Invalid file format. Please upload an Excel file.')
-        return redirect(request.url)
+    process_excel_file(filepath, report.id)
+    flash(f"Report form {year} created successfully!")
+    return redirect(url_for('user_views.get_report_page'))
 
 
 @user_views.route('/reports', methods=['GET'])
