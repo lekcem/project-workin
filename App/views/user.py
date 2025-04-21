@@ -1,6 +1,6 @@
 import os
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for, current_app
-from flask_jwt_extended import jwt_required, current_user as jwt_current_user
+from flask_jwt_extended import jwt_required, verify_jwt_in_request, get_jwt_identity, current_user as jwt_current_user
 from werkzeug.utils import secure_filename
 from.index import index_views
 
@@ -28,6 +28,8 @@ from App.controllers import (
 )
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
+
+
 
 @user_views.route('/createuser', methods=['GET'])
 @jwt_required()
@@ -68,6 +70,7 @@ def get_user_page():
     return render_template('users.html', users=users, reports=reports, exceldatas=exceldatas)
 
 @user_views.route('/createuser', methods=['POST'])
+@jwt_required()
 def create_user_action():
     data = request.form
     flash(f"User {data['username']} created!")

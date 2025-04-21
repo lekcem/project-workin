@@ -6,7 +6,6 @@ import pandas as pd
 
 EXPECTED_HEADERS = ['department', 'students']
 
-
 def create_user(username, password):
     newuser = User(username=username, password=password)
     db.session.add(newuser)

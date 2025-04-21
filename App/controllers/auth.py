@@ -1,5 +1,6 @@
 from flask_jwt_extended import create_access_token, jwt_required, JWTManager, get_jwt_identity, verify_jwt_in_request
 
+
 from App.models import User
 
 def login(username, password):
@@ -12,7 +13,7 @@ def login(username, password):
 
 def setup_jwt(app):
   jwt = JWTManager(app)
-
+  
   # configure's flask jwt to resolve get_current_identity() to the corresponding user's ID
   @jwt.user_identity_loader
   def user_identity_lookup(identity):
@@ -27,6 +28,7 @@ def setup_jwt(app):
     return User.query.get(identity)
 
   return jwt
+
 
 
 # Context processor to make 'is_authenticated' available to all templates
