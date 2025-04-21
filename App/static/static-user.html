@@ -1,12 +1,11 @@
 <!doctype html>
 <html>
   <head>
-  
-     <!--Import Google Icon Font-->
+    <!-- Import Google Icon Font -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!--Let browser know website is optimized for mobile-->
+    <!-- Let browser know website is optimized for mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>myeStats</title>
     <style>
@@ -72,6 +71,7 @@
         color: #d32f2f;
         cursor: pointer;
       }
+
       .transparent-navbar {
         background: rgba(255, 255, 255, 0.1);
         box-shadow: none;
@@ -84,6 +84,7 @@
         align-items: center;
         padding: 0 15px;
       }
+
       .nav-wrapper {
         display: flex;
         justify-content: space-between;
@@ -96,7 +97,7 @@
         width: auto;
         border-radius: 10px;
         filter: opacity(0.8);
-        display:flex;
+        display: flex;
         justify-content: center;
       }
 
@@ -104,6 +105,7 @@
         display: flex;
         align-items: center;
       }
+
       .centered-icon {
         padding-bottom: 20px;
         padding-right: 40px;
@@ -122,117 +124,147 @@
       #main-content.expanded {
         margin-left: 0 !important;
       }
-    .split {
-      /* height: 100%; */
-      width: 100%;
-      position: absolute;
-      /* overflow-x: hidden; */
-      margin: 20px auto;
-      max-width: 720px;
-      top: 60px;
-    }
-    
-    .left {
-      /* top: 125px; */
-      left: 0;
-      margin-left: 50px;
-      padding-right: 40px;
-      background-color: white;
-      padding: 2rem;
-      text-align: center;
-      background: #ffffffcc;
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      margin-bottom: 20px;
-      border: 10px;
-      width: 710px;
-    }
-    
-    .right {
-      /* display:none; */
-      /* top: 170px; */
-      margin-right: 50px;
-      right: 0;
-      padding: 10px;
-      text-align: center;
-      background: #ffffffcc;
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      margin-bottom: 20px;
-      width: 600px;
-    }
 
-    th{
-      text-align: center;
-      padding: 0 2px 0 2px;
-    }
-    .dashboard-container {
+      .split {
+        width: 100%;
+        position: absolute;
+        margin: 20px auto;
+        max-width: 720px;
+        top: 60px;
+      }
+
+      .left {
+        left: 0;
+        margin-left: 50px;
+        padding-right: 40px;
+        background-color: white;
         padding: 2rem;
         text-align: center;
         background: #ffffffcc;
         backdrop-filter: blur(10px);
-        /* margin: 80px auto; */
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+        border: 10px;
+        width: 710px;
+      }
+
+      .right {
+        margin-right: 50px;
+        right: 0;
+        padding: 10px;
+        text-align: center;
+        background: #ffffffcc;
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+        width: 600px;
+      }
+
+      th {
+        text-align: center;
+        padding: 0 2px 0 2px;
+      }
+
+      .dashboard-container {
+        padding: 2rem;
+        text-align: center;
+        background: #ffffffcc;
+        backdrop-filter: blur(10px);
         max-width: 1100px;
         border-radius: 20px;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        
-    }
-    .dashboard-container button{
-      background-color: #2685f1;
-      width: 100%;
-      border: none;
-      color: white;
-      padding: 10px 10px;
-      border-radius: 15px;
-      text-align: center;
-      display: inline-block;
-      font-size: 16px;
-      margin: 2px;
-    }
-    .dashboard-container button:hover{
-      background-color: #0e77f0;
-      cursor:pointer;
-    }
-    .right .dashboard-container{
-      /* display:none; */
-      margin: 10px;
-    }
-    .title{
-      font-size: 1.3em;
-      font-weight: 700;
-      text-decoration: underline;
-    }
+      }
 
-    .table-section {
-    padding: 20px;
-    border-radius: 15px;
-  }
+      .dashboard-container button {
+        background-color: #2685f1;
+        width: 100%;
+        border: none;
+        color: white;
+        padding: 10px 10px;
+        border-radius: 15px;
+        text-align: center;
+        display: inline-block;
+        font-size: 16px;
+        margin: 2px;
+      }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    font-weight: 500;
-  }
+      .dashboard-container button:hover {
+        background-color: #0e77f0;
+        cursor: pointer;
+      }
 
-  th, td {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    text-align: left;
-    border-radius: 0;
-  }
+      .right .dashboard-container {
+        margin: 10px;
+      }
 
-  th {
-    background-color:   #3890d0;
-    color: white;
-  }
+      .title {
+        font-size: 1.3em;
+        font-weight: 700;
+        text-decoration: underline;
+      }
 
+      .table-section {
+        padding: 20px;
+        border-radius: 15px;
+        overflow-y: auto;
+        max-height: 400px;
+      }
 
-  </style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        font-weight: 500;
+      }
+
+      th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        text-align: left;
+      }
+
+      th {
+        background-color: #3890d0;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        #main-content {
+          margin-left: 0 !important;
+        }
+
+        .split {
+          width: 100%;
+          max-width: none;
+          position: relative;
+          top: 0;
+          margin: 0;
+        }
+
+        .left, .right {
+          width: 100% !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          padding: 15px !important;
+        }
+
+        .sidenav {
+          width: 200px;
+        }
+
+        .sidenav-trigger {
+          left: 10px;
+        }
+
+        .table-section {
+          max-height: 300px;
+        }
+      }
+    </style>
   </head>
   <body>
     <nav class="transparent-navbar">
@@ -247,7 +279,6 @@
         </div>
       </div>
     </nav>
-    
 
     <ul id="slide-out" class="sidenav">
       <div class="sidenav-close-wrapper">
@@ -264,24 +295,13 @@
       <li><a href="/"><i class="material-icons">home</i>Home</a></li>
       <li><a href="/users"><i class="material-icons">cloud_upload</i>Upload Report</a></li>
       <li><a href="/static/users"><i class="material-icons">description</i>View Report</a></li>
-      <!-- <li><a href="/createuser"><i class="material-icons">person_add</i>Create User</a></li> -->
       <li><a href="/logout"><i class="material-icons">exit_to_app</i>Logout</a></li>
       <li><a href="/loginpage"><i class="material-icons">lock_open</i>Login</a></li>
     </ul>
 
-    
-   <div id="main-content">
+    <div id="main-content">
       <div class="split left">
         <div class="title"><p>Entries</p></div>
-        <!-- <div class="container" id="content" >
-          <div class="row">
-              <p>
-              </p>
-          </div>
-          <div class="row">
-            
-          </div>
-        </div> -->
 
         <div class="dashboard-container" style="padding: 10px 10px 10px 10px;">
           <div class="row">
@@ -293,7 +313,7 @@
                     </tr>
                   </thead>
                   <tbody id="result2">
-                  <tbody>
+                  </tbody>
               </table>
             </div>
           </div>
@@ -320,7 +340,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="main.js"></script>
     <script>
@@ -336,7 +355,6 @@
         var elems = document.querySelectorAll('select');
         M.FormSelect.init(elems);
       });
-
     </script>
   </body>
 </html>
